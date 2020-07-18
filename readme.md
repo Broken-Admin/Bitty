@@ -13,9 +13,9 @@ After having confirmation my idea was possible, I took tof find a way to store v
 
 After these findings, I was able to produce basic memory. Eventually I had a need for a binary decoder for control flow and memory addressing, first finding a way to produce a NOR gate decoder, if sloppily - but eventually finding a cleaner way of doing it which only seems reasonable to do in Minecraft.
 
-This leading me to the point of having memory, memory addressing, control flow, user input, and basic instruction specifications - including a universal logic NAND instruction. Combining these pieces it would be possible to produce a complete Minecraft computer. Which is what I set out to do.
+After multiple nights with a similar lack of sleep, and much time devoted to pondering possible implementation, I was lead to the point of having memory, memory addressing, control flow, user input, and basic instruction specifications - including a universal logic NAND instruction. Combining these pieces it would be possible to produce a complete Minecraft computer. Which is what I set out to do.
 
 #### Information
 
-- See docs/ for specifications
+- See `docs` directory for specifications
 - Bitty does not currently include an assembler and all programs must be written in machine-code, directly to the binary file. A pen and paper or notepad tool is recommended for writing and debugging of programs.
