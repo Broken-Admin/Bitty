@@ -5,7 +5,7 @@
 - When the `swp` bit is reset, value is interpreted as an immedaite
 
 ## Instructions
-- nnd `value` or `0x0v` - Perform a logical NAND with the accumulator and an immediate `value` or RAM data. See caveats.
-- mov `value` or `0x1v` - Copy an immediate `value` or data from RAM to the accumulator. See caveats.
-- swp or `0x20` - Flip the `swp` bit.
-- str value or `0x3v` - Store the accumulator in the RAM memory addressed by `value`.
+- nnd `value` or `0b00` - Perform a logical NAND with the accumulator and an immediate `value` or RAM data. See caveats.
+- mov `value` or `0b01` - Copy an immediate `value` or data from RAM to the accumulator. See caveats.
+- swp or `0b10` - Flip the `swp` bit.
+- str value or `0b11` - Store the accumulator in the RAM memory addressed by `value`.
