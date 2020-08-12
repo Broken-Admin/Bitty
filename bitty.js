@@ -107,6 +107,7 @@ ROM.file = fs.readFileSync(process.argv[2]);
 // Loop while the program counter has not reached the end of file
 while(ROM.pc < ROM.file.length) {
     // Read instruction from file
+    // Files are read on a byte-by-byte basis
     c_byte = ROM.file.readInt8(ROM.pc);
     instruction = (c_byte >> 4) & 0b11;
     val = c_byte & 0b11;
