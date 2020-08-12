@@ -1,0 +1,5 @@
+; A basic example of a bty operand file
+mov 3
+str 0
+nnd 2
+swp
