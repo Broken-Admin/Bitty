@@ -15,6 +15,7 @@ class ram {
 };
 
 RAM = new ram;
+RAM.memory = [0,0,0,0];
 
 // Instructions
 
@@ -90,6 +91,12 @@ class rom {
 
 ROM = new rom;
 
+// Check argument count
+if(process.argv.length != 3) {
+    console.log("Usage: node bitty.js [rom filename]");
+    process.exit(1);
+}
+
 // Main program
 
 ROM.pc = 0;
@@ -103,23 +110,28 @@ while(ROM.pc < ROM.file.length) {
     c_byte = ROM.file.readInt8(ROM.pc);
     instruction = (c_byte >> 4) & 0b11;
     val = c_byte & 0b11;
+    opcode = "";
     switch(instruction & 0b11) {
         case instructions_codes.nnd:
             instruction_functions.nnd(val);
+            opcode = "nnd"
             break;
         case instructions_codes.mov:
+            opcode = "mov"
             instruction_functions.mov(val);
             break;
         case instructions_codes.swp:
+            opcode = "swp"
             instruction_functions.swp(val);
             break;
         case instructions_codes.str:
+            opcode = "str"
             instruction_functions.str(val);
             break;
         default:
             console.log(`Encountered invalid code: 0b${(instruction & 0b11).toString(2)}`);
             break;
     }
-    console.log(`PC - ${ROM.pc}\nAccumulator - 0b${accumulator.val.toString(2)}\nRAM - [${RAM.memory}]\nOpcode - 0b${(instruction & 0b11).toString(2)}\nOperand - 0b${(val & 0b11).toString(2)}\n`);
+    console.log(`PC - ${ROM.pc}\nAccumulator - 0b${accumulator.val.toString(2)}\nRAM - [${RAM.memory}]\nOpcode - 0b${(instruction & 0b11).toString(2)} or ${opcode}\nOperand - 0b${(val & 0b11).toString(2)}\n`);
     ROM.pc++;
 }
