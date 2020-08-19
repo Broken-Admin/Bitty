@@ -9,7 +9,7 @@ Seeing this idea started in Minecraft, it seems only fair to explain the process
 
 Beginning with attempts to see if my idea was truly possible, I took to the internet and found that what I have read to be the earliest Minecraft computer was made in late 2010 on YouTube by [theinternetftw](https://www.youtube.com/channel/UCOiL1Gy74gUIsfQj59dDE8w).
 
-After having confirmation my idea was possible, I took tof find a way to store values in memory, I found the piston toggle-latch. I took this idea further, finding a way to procure a rising-edge and falling-edge detector and the "schematic" for a XOR gate.
+After having confirmation my idea was possible, I took to find a way to store values in memory, I found the piston toggle-latch. I took this idea further, finding a way to procure a rising-edge and falling-edge detector and the "schematic" for a XOR gate.
 
 After these findings, I was able to produce basic memory. Eventually I had a need for a binary decoder for control flow and memory addressing, first finding a way to produce a NOR gate decoder, if sloppily - but eventually finding a cleaner way of doing it which only seems reasonable to do in Minecraft.
 
