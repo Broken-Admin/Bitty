@@ -18,6 +18,9 @@
 
 - Binary is compiled into 8-bit binary codes with a with 4 always-zero leading bits before opcode and operand
 
+- Instructions are assembled to a leading 4 bits which are all zeroes, a 2 bit opcode and a 2 bit operand, the opcode coming before the operand.
+    - e.g. `mov #03` assembled to `[0000][01][11]` or `00000111`. The first bracket block (`[0000]`) being the leading 4 bits, the second bracket block (`[01]`) being the opcode for `mov`, the third bracket block (`[11]`) being the binary of the operand 3.
+
 - An C interpreter could possibly be used to convert said assembled file into output suitable for programming into an EEPROM
     - See Caveats section for specification
 
