@@ -1,5 +1,11 @@
 ; A basic example of a bty operand file
-mov 3
-str 0
-nnd 2
-swp
+mov %01
+; 00000101
+str %00
+; 00001100
+nnd %10
+; 00000010
+swp %01
+; 00001001
+mov %00
+; 00000100
