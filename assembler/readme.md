@@ -19,6 +19,13 @@
 - Binary is compiled into 8-bit binary codes with a with 4 always-zero leading bits before opcode and operand
 
 - An C interpreter could possibly be used to convert said assembled file into output suitable for programming into an EEPROM
+    - See Caveats section for specification
+
+## Caveats
+- Due to the limitations of C, file produced by this assembler would not be compatible with an interpretation of the machine which fetched instructions and opcodes 4 bits at a time from 4-bit word ROM
+    - It could also be possible to have a specialized PC, which reads 2 4-bit instructions from the same 8-bit memory location of an 8-bit word ROM, and then increments
+
+- A machine interpretation which fetched a byte / 8 bits from an 8-bit word ROM - discarding the high 4 bits of the bit - would be compatible with the output of this assembler
 
 ## TODO
 - Possibly add support for 3 letter macros and variables
