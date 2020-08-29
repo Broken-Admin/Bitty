@@ -1,10 +1,16 @@
-all: assembler.bin
+title := assembler
+out := $(title).elf
+in :=  $(title).c
+
+.PHONY: all clean
+
+all: $(out)
 
 clean:
-	rm *.bin *.out
+	rm -f *.bin *.elf
 
-assembler.bin: assembler.c
+$(out): $(in)
 	gcc -o $@ $^
 
-clang: assembler.c
-	clang -o assembler.bin $^
+clang: $(in)
+	clang -o $(out) $^
