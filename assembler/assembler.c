@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     output = fopen(argv[2], "wb");
 
     uint8_t notendoffile = 1;
-    for (int instructioncount = 0; notendoffile; instructioncount++)
+    for (int linenumber = 0; notendoffile; linenumber++)
     {
         // Handle opcode
 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
         else
         {
             // An invalid opcode has been reached
-            printf("Reached invalid opcode on line %i - \"%s\", skipping.\n", instructioncount, mnemonic);
+            printf("Reached invalid opcode on line %i - \"%s\", skipping.\n", linenumber, mnemonic);
             char *cchar = malloc(1);
             while (cchar[0] != '\n') // Move to the next line
             {
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
             number[2] = (number[0] * 10) + (number[1] * 1);
             if (number[2] > 3 || number[2] < 0) // If the number is larger than 3 or less than 0, it cannot be represented by the CPU
             {
-                printf("Invalid opcode \"%i\" encountered on line %i, defaulting to zero.\n", number[3], instructioncount);
+                printf("Invalid opcode \"%i\" encountered on line %i, defaulting to zero.\n", number[3], linenumber);
                 operand = 0;
             }
             else // Otherwise the operand is correct and should be assigned to operand
@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
             if (number[2] > 3 || number[2] < 0) // If the number is larger than 3 or less than 0, it cannot be represented by the CPU
             {
                 printf("binary error.\n");
-                printf("Invalid opcode \"%i\" encountered on line %i, defaulting to zero.\n", number[3], instructioncount);
+                printf("Invalid opcode \"%i\" encountered on line %i, defaulting to zero.\n", number[3], linenumber);
                 operand = 0;
             }
             else // Otherwise the operand is correct and should be assigned to operand
@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
         else
         {
             // Otherwise, discard the value
-            printf("Operand \"%s\" for opcode %i on line %i, is invalid.\n", unparsed, opcode, instructioncount);
+            printf("Operand \"%s\" for opcode %i on line %i, is invalid.\n", unparsed, opcode, linenumber);
             char *cchar = malloc(1);
             while (cchar[0] != '\n') // Move to the next line
             {
