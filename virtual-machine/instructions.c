@@ -21,7 +21,20 @@ void ins_swp(int *swapbit)
 }
 
 // *ram[], a pointer to the RAM array
-void ins_str(int *a, int *b, int *RAM)
+// *bank, a pointer to currently selected RAM bank number (0, 3)
+void ins_str(int *a, int *b, int (*RAM)[4], int *bank)
 {
-    RAM[*b] = *a;
+    // Banks are selected by RAM[3] in every bank
+
+    // If the current operand is storing to RAM[3],
+    // select the bank specified by the accumulator
+    if (*b == 3)
+    {
+        *bank = *a;
+    }
+    // Otherwise store the accumulator
+    else 
+    {
+        RAM[*bank][*b] = *a;
+    }
 }

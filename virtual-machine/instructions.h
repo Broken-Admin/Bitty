@@ -25,5 +25,5 @@ enum instructionEnum
 void ins_nnd(int *a, int *b);
 void ins_mov(int *a, int *b);
 void ins_swp(int *swapbit);
-void ins_str(int *a, int *b, int *RAM);
+void ins_str(int *a, int *b, int (*RAM)[4], int *bank);
 #endif
