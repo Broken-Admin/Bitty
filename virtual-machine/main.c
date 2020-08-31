@@ -71,7 +71,7 @@ main(int argc, char *argv[])
             }
             else // Otherwise, swapbit is 1 and the operand should be used as a reference to a RAM location
             {
-                ins_nnd(&accumulator, &RAM[operand]);
+                ins_nnd(&accumulator, &RAM[RAMBank][operand]);
             }
             mnemonic = "nnd";
             break;
