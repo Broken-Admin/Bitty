@@ -4,7 +4,10 @@
 // Accumulator
 int accumulator = 0b00;
 // Memory / RAM
-int RAM[4] = {0, 0, 0, 0};
+// Banks are selected by RAM[3] in every bank
+int RAM[4][4] = {0};
+// Current RAM bank (0, 3)
+int RAMBank = 0;
 // Swap Bit
 int swapbit = 0;
 // 2-bit Binary
@@ -74,7 +77,7 @@ main(int argc, char *argv[])
             }
             else // Otherwise, swapbit is 1 and the operand should be reference a RAM location
             {
-                ins_mov(&accumulator, &RAM[operand]);
+                ins_mov(&accumulator, &RAM[RAMBank][operand]);
             }
             mnemonic = "mov";
             break;
@@ -84,7 +87,7 @@ main(int argc, char *argv[])
             mnemonic = "swp";
             break;
         case enum_str:
-            ins_str(&accumulator, &operand, RAM);
+            ins_str(&accumulator, &operand, RAM, &RAMBank);
             mnemonic = "str";
             break;
         default:
@@ -94,7 +97,20 @@ main(int argc, char *argv[])
 
         // Output the executed instruction and the current state of the various memory
         printf("Executed instruction - \"%s #0%i\"\n", mnemonic, operand);
-        printf("Accumulator - %i, RAM - [%i, %i, %i, %i], Swap Bit - %i\n\n", accumulator, RAM[0], RAM[1], RAM[2], RAM[3], swapbit);
+        printf("Accumulator - %i, Swap Bit - %i, RAM Bank  - %i\n", accumulator, swapbit, RAMBank);
+        // This is ineffecient
+        // TODO: Simplify printing RAM
+        printf("RAM - [ \n\
+        [%i, %i, %i, %i], \n\
+        [%i, %i, %i, %i], \n\
+        [%i, %i, %i, %i], \n\
+        [%i, %i, %i, %i]  \n\
+    ]\n",
+        RAM[0][0], RAM[0][1], RAM[0][2], RAM[0][3],
+        RAM[1][0], RAM[1][1], RAM[1][2], RAM[1][3],
+        RAM[2][0], RAM[2][1], RAM[2][2], RAM[2][3],
+        RAM[3][0], RAM[3][1], RAM[3][2], RAM[3][3]
+        );
     }
     // Close the opened file
     fclose(ROM);
