@@ -62,7 +62,14 @@ main(int argc, char *argv[])
         {
         case enum_nnd:
             // Perform a NAND of the accumulator and operand
-            ins_nnd(&accumulator, &operand);
+            if (~swapbit & 0b01) // If the swapbit is 0, then the operand should be treated as an immediate
+            {
+                ins_mov(&accumulator, &operand);
+            }
+            else // Otherwise, swapbit is 1 and the operand should be used as a reference to a RAM location
+            {
+                ins_nnd(&accumulator, &RAM[operand]);
+            }
             mnemonic = "nnd";
             break;
         case enum_mov:
@@ -72,7 +79,7 @@ main(int argc, char *argv[])
             {
                 ins_mov(&accumulator, &operand);
             }
-            else // Otherwise, swapbit is 1 and the operand should be reference a RAM location
+            else // Otherwise, swapbit is 1 and the operand should be used as a reference to a RAM location
             {
                 ins_mov(&accumulator, &RAM[operand]);
             }
