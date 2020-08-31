@@ -1,0 +1,15 @@
+; A basic program which can be run to demonstrate the virtual machine
+mov #02
+; Equivalent to mov %10
+nnd #01
+; Equivalent to mov %01
+str #00
+; Equivalent to str %00
+nnd #01
+; Equivalent to nnd %01
+swp #00
+; Equivalent to swp %00
+; Despite not making use of the operand, swp must still be provided one
+; due to the limitations of the design of the assembler
+mov #00
+; Equivalent to mov %00
