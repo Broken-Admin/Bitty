@@ -10,29 +10,40 @@ int main(int argc, char *argv[])
         return (0);
     }
 
-    // input holds the file discriptor for the input file
+    // input holds the file descriptor for the input file
     input = fopen(argv[1], "r");
 
     // output hold the file descriptor for the output file
     output = fopen(argv[2], "wb");
 
-    uint8_t notendoffile = 1;
-    for (int linenumber = 0; notendoffile; linenumber++)
+    char *c_line = NULL;
+    size_t linesize = 0;
+    size_t bufferSize = 45;
+
+    int linenumber = 0;
+    for (;; linenumber++)
     {
-        // Handle opcode
+        c_line = malloc(bufferSize);
+        linesize = bufferSize;
 
-        // 3 byte buffer
-        char *mnemonic = malloc(3);
-
-        // Assign notendoffile to the return value, as if there is an error
-        // or end of file is reached, fread returns 0
-        notendoffile = fread(mnemonic, 1, 3, input);
-        if (!notendoffile) // Check if end of file has been reached
+        // getline returns -1 upon end-of-file or error
+        // getline will resize provided buffer accordingly
+        if (getline(&c_line, &linesize, input) < 0)
         {
-            continue;
+            free(c_line);
+            break;
         }
-        // Opcode
+
+        if (c_line == NULL)
+        {
+            free(c_line);
+            break;
+        }
+
+        // Handle opcode
         uint8_t opcode = 0xFF;
+
+        char *mnemonic = strtok(c_line, " ");
 
         if (strcmp(mnemonic, mnemonics[0]) == 0) // nnd / 0b00
         {
@@ -52,43 +63,17 @@ int main(int argc, char *argv[])
         }
         else if (mnemonic[0] == ';') // Check if this line is a comment
         {
-            // If line is a comment, skip to the next line and return to top of loop
-            char *cchar = malloc(1);
-            while (*cchar != '\n') // Move to the next line
-            {
-                notendoffile = fread(cchar, 1, 1, input);
-                if(!notendoffile)
-                {
-                    break;
-                }
-            }
-            free(cchar);
+            free(c_line);
             continue;
         }
         else
         {
             // An invalid opcode has been reached
-            printf("Reached invalid opcode on line %i - \"%s\", skipping.\n", linenumber, mnemonic);
-            char *cchar = malloc(1);
-            while (cchar[0] != '\n') // Move to the next line
-            {
-                notendoffile = fread(cchar, 1, 1, input);
-                if(!notendoffile)
-                {
-                    break;
-                }
-            }
-            // Free up allocated memory
-            free(cchar);
+            printf("Reached invalid opcode on line %i - \"%s\", skipping line.\n", linenumber, mnemonic);
+            // Move to next line
+            free(c_line);
             continue;
         }
-
-        free(mnemonic);
-        // By this point, assume that there is a valid opcode and mnemonic
-
-        // TODO: HANDLE OPERAND
-        // Move ahead by one, getting to the start of the operand
-        fseek(input, 1, SEEK_CUR);
 
         // Operand value
         uint8_t operand;
@@ -96,11 +81,16 @@ int main(int argc, char *argv[])
         // Buffer for handling of number
         // The max size for the number string is 3 bytes
         // which could include the type, and 2 binary numbers
-        char *unparsed = malloc(3);
+        char *unparsed = strtok(NULL, " ");
+        if (unparsed == NULL || strlen(unparsed) < 1)
+        {
+            printf("There was an error when attempting to parse the opcode of line %i. Skipping line and attempting to continue assembly.\n", linenumber);
+            free(c_line);
+            continue;
+        }
 
         // Handle of number type
         // #dec, %bin
-        notendoffile = fread(unparsed, 3, 1, input);
 
         if (unparsed[0] == '#') // Decimal
         {
@@ -149,19 +139,13 @@ int main(int argc, char *argv[])
         {
             // Otherwise, discard the value
             printf("Operand \"%s\" for opcode %i on line %i, is invalid.\n", unparsed, opcode, linenumber);
-            char *cchar = malloc(1);
-            while (cchar[0] != '\n') // Move to the next line
-            {
-                notendoffile = fread(cchar, 1, 1, input);
-                if(!notendoffile)
-                {
-                    break;
-                }
-            }
-            // Free up allocated memory
-            free(cchar);
+            printf("Skipping line and attempting to continue assembly.\n");
+            free(c_line);
             continue;
         }
+
+        // Clear the buffer resized by getline
+        free(c_line);
 
         // Write opcode and operand to file as half-byte value
         // E.g. "swp %01" would be written to the file as binary 00001001
@@ -172,16 +156,9 @@ int main(int argc, char *argv[])
         *byte = (opcode << 2) + operand;
         fwrite(byte, 1, 1, output);
         free(byte);
-
-        // Move to the next line, as each line should be exactly 7
-        // visible characters, which would be the 3 letter mnemonic,
-        // a single space, a 3 alphanumeric string for the operand
-        // E.g. "mov %01", "mov" being the operand, then a single
-        // space, following last is the operand
-        // At the end will be a single invisible newline character
-        // which this seek moves past
-        fseek(input, 1, SEEK_CUR);
     }
+    printf("End of file reached or error encountered.\n");
+    printf("%i lines parsed.\n", linenumber);
     fclose(input);
     fclose(output);
     return (0);
