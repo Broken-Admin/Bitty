@@ -152,10 +152,8 @@ int main(int argc, char *argv[])
         // which consists of 0000, the unused top 4 bits,
         // 0b10, the opcode, and the following 2 bit value
         // 0b01 which the operation should be performed using
-        int *byte = malloc(1);
-        *byte = (opcode << 2) + operand;
-        fwrite(byte, 1, 1, output);
-        free(byte);
+        uint8_t byte = (opcode << 2) + operand;
+        fwrite(&byte, 1, 1, output);
     }
     printf("End of file reached or error encountered.\n");
     printf("%i lines parsed.\n", linenumber);
