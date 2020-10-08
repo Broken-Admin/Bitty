@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     size_t bufferSize = 45;
 
     int linenumber = 0;
-    while (linenumber++)
+    while (linenumber++ || 1)
     {
         c_line = malloc(bufferSize);
         linesize = bufferSize;
