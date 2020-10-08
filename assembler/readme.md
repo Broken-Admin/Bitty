@@ -38,3 +38,5 @@
     - Possibly requiring an link-list hash-table of variable definitions
 
 - Confirm input file is a bty extension file
+
+- `strtol` can replace my binary/decimal string-to-integer programming
