@@ -11,10 +11,10 @@ int main(int argc, char *argv[])
     }
 
     // input holds the file descriptor for the input file
-    input = fopen(argv[1], "r");
+    FILE *input = fopen(argv[1], "r");
 
     // output hold the file descriptor for the output file
-    output = fopen(argv[2], "wb");
+    FILE *output = fopen(argv[2], "wb");
 
     char *c_line = NULL;
     size_t linesize = 0;

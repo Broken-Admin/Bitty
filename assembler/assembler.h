@@ -21,5 +21,3 @@ const char *binary[] = {
     "10",
     "11"
 };
-
-FILE *input, *output;
