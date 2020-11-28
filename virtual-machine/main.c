@@ -14,6 +14,20 @@ char *binarycodes[4] = {
     "10",
     "11"};
 
+void getBinaryRepresentation(int reg, char *dest)
+{
+    int twoBit = reg & 0b10;
+    char *twoColor = twoBit ? CWHT : CBLK;
+    int oneBit = reg & 0b01;
+    char *oneColor = oneBit ? CWHT : CBLK;
+    char *output = malloc(32);
+    sprintf(output, "%s\u2586%s%s\u2586%s", twoColor, SPT, oneColor, CRST);
+    // Copy point the destination to the output pointer
+    strcpy(dest, output);
+    // Free output buffer
+    free(output);
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 2 && argc != 3 && argc != 4)
