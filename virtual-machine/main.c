@@ -12,16 +12,15 @@ char *binarycodes[4] = {
     "00",
     "01",
     "10",
-    "11"
-};
+    "11"};
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-    if (argc != 2)
+    if (argc != 2 && argc != 3 && argc != 4)
     {
-        printf("Usage: ./bitty.elf input.bin\n");
+        printf("Usage: ./bitty.elf input.bin [binary=0] [slow=0]\n");
         printf("Note, input.bin shoud be an input file produced by the provided assembler in project-root-dir/assembler.\n");
+        printf("Note, to enable binary or slow modes, provide 1. E.g. \"./bitty.elf input.bin 1 1\" to enable both binary and slow modes.\n");
         return (-1);
     }
 
@@ -103,7 +102,45 @@ main(int argc, char *argv[])
 
         // Output the executed instruction and the current state of the various memory
         printf("Executed instruction - \"%s #0%i\"\n", mnemonic, operand);
-        printf("Accumulator - %i, RAM - [%i, %i, %i, %i], Swap Bit - %i\n\n", accumulator, RAM[0], RAM[1], RAM[2], RAM[3], swapbit);
+
+        // Binary mode
+        if (argc >= 3 && strtol(argv[2], NULL, 10))
+        {
+            // Note on coloring, a white (on) block conveys a 1
+            // a black (off) block conveys a 0, seperators are there
+            // for better viewing
+
+            char *binaryString = malloc(32);
+            getBinaryRepresentation(accumulator, binaryString);
+            // Accumulator displaying
+            printf("Accumulator - %s\n", binaryString);
+            // RAM displaying
+            printf("Ram - [");
+            for (int i = 0; i < 4; i++)
+            {
+                getBinaryRepresentation(RAM[i], binaryString);
+                if (i + 1 != 4)
+                    printf("%s, ", binaryString);
+                else
+                    printf("%s", binaryString);
+            }
+            printf("]\n");
+            // Free up the binaryString buffer
+            free(binaryString);
+        }
+        else
+        {
+            printf("Accumulator - %i, RAM - [%i, %i, %i, %i], Swap Bit - %i\n", accumulator, RAM[0], RAM[1], RAM[2], RAM[3], swapbit);
+        }
+        // Slow mode
+        if (argc == 4 && strtol(argv[3], NULL, 10))
+        {
+            printf("Press any key to proceed to next execution step.\n");
+            // Wait for user key
+            getchar();
+        }
+        // Trailing newline
+        printf("\n");
     }
     // Close the opened file
     fclose(ROM);
