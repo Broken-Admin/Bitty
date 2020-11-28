@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
 
         // Handle of number type
         // #dec, %bin
+        // This can be accomplished easier with strtol but it works as-is
 
         if (unparsed[0] == '#') // Decimal
         {
