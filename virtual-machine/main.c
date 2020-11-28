@@ -102,6 +102,7 @@ main(int argc, char *argv[])
         // Output the executed instruction and the current state of the various memory
         printf("Executed instruction - \"%s #0%i\"\n", mnemonic, operand);
         printf("Accumulator - %i, RAM - [%i, %i, %i, %i], Swap Bit - %i\n\n", accumulator, RAM[0], RAM[1], RAM[2], RAM[3], swapbit);
+        free(mnemonic);
     }
     // Close the opened file
     fclose(ROM);
