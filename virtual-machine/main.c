@@ -37,6 +37,8 @@ main(int argc, char *argv[])
         isRunning = fread(buffer, 1, 1, ROM);
         if (!isRunning)
         {
+            // Free the prepared buffer
+            free(buffer);
             printf("End of ROM.\n");
             break;
         }
