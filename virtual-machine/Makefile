@@ -1,7 +1,7 @@
 CC := gcc
 out := bitty.elf
 
-.PHONY: all clean
+.PHONY: all clang clean
 
 all: $(out)
 
@@ -10,6 +10,9 @@ all: $(out)
 
 $(out): main.c instructions.c
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+clang: main.c instructions.c
+	clang -o $(out) $^
 
 clean:
 	rm -f *.o *.elf
