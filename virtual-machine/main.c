@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
         // Slow mode
         if (argc == 4 && strtol(argv[3], NULL, 10))
         {
-            printf("Press any key to proceed to next execution step.\n");
+            printf("Press enter to proceed to next execution step.\n");
             // Wait for user key
             getchar();
         }
