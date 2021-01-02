@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
         printf("Usage: ./bitty.elf input.bin [binary=0] [slow=0]\n");
         printf("Note, input.bin shoud be an input file produced by the provided assembler in project-root-dir/assembler.\n");
         printf("Note, to enable binary or slow modes, provide 1. E.g. \"./bitty.elf input.bin 1 1\" to enable both binary and slow modes.\n");
-        printf("Any number other than 0 will result in mode being enabled, any character will result in modes not being enabled.");
+        printf("Any number other than 0 will result in mode being enabled, any character will result in modes not being enabled.\n");
         return (-1);
     }
 
